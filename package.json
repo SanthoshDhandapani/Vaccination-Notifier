@@ -1,0 +1,16 @@
+{
+  "name": "covid_vaccination",
+  "version": "1.0.0",
+  "description": "To get vaccination notification",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Santhosh",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "telebot": "^1.4.1"
+  }
+}
