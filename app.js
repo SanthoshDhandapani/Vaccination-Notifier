@@ -46,6 +46,13 @@ const getSputnikVaccines = (vaccines) => {
   return sputnikCenters;
 };
 
+const sendVaccinationNotification = ({date, name, doseType, capacity}) => {
+  console.log(`Dose ${doseType} slots 🌟 : ${capacity} on ${date}\n`);
+  bot.sendMessage(chatId, `💉 🚨🚨 Available on 🙂 ${date}`);
+  bot.sendMessage(chatId, `🏥 Hospital Name : ${name}`);
+  bot.sendMessage(chatId, `💉 Dose ${doseType} slots 🌟 : ${capacity} on ${date}\n`);
+}
+
 const vaccinationDetails = (sputnikVaccines) => {
   sputnikVaccines.forEach(({ name, sessions }) => {
     // bot.sendMessage(chatId,`🏥 Hospital Name : ${name}`);
@@ -56,17 +63,24 @@ const vaccinationDetails = (sputnikVaccines) => {
     sessions.forEach(({ available_capacity, available_capacity_dose1, available_capacity_dose2, date }) => {
       if (available_capacity > 0) {
         isAvailable = !isAvailable && true;
-        console.log(`Available on  ${date}`);
+        console.log(`Available on  ${date} dose 1 capacity ${available_capacity_dose1}, dose 2 capactiy ${available_capacity_dose2}`);
 
-        if (available_capacity_dose1 > 0) {
-          bot.sendMessage(chatId, `💉 🚨🚨 Available on 🙂 ${date}`);
-          bot.sendMessage(chatId, `🏥 Hospital Name : ${name}`);
-          console.log(`Dose 1 slots ${available_capacity_dose1} on ${date}\n`);
-          bot.sendMessage(chatId, `💉 Dose 1 slots 🌟 : ${available_capacity_dose1} on ${date}\n`);
-        }
+        const vaccinationDetails = {
+          date,
+          name,
+          doseType: '',
+          capacity: '',
+        };
+
+        /* if (available_capacity_dose1 > 0) {
+          vaccinationDetails.doseType = '1';
+          vaccinationDetails.capacity = available_capacity_dose1;
+          sendVaccinationNotification(vaccinationDetails);
+        } */
         if (available_capacity_dose2 > 0) {
-          console.log(`Dose 2 slots ${available_capacity_dose2} on ${date}\n`);
-          // bot.sendMessage(chatId, `💉 Dose 2 slots 🌟 : ${available_capacity_dose2} on ${date}\n`);
+          vaccinationDetails.doseType = '2';
+          vaccinationDetails.capacity = available_capacity_dose2;
+          sendVaccinationNotification(vaccinationDetails);
         }
       }
     });
